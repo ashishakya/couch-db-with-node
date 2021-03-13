@@ -1,7 +1,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path"); //core
-const nodeCouchDB = require("node-couchdb");
+const NodeCouchDb = require("node-couchdb");
+// node-couchdb instance with default options
+const couch = new NodeCouchDb({
+    auth: {
+        user: "username",
+        password: "password"
+    }
+});
+
+couch.listDatabases().then(dbs => console.log(dbs), err => {
+    // request error occured
+});
+
 
 const app = express();
 
