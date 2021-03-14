@@ -1,6 +1,14 @@
 <h3>Customers</h3>
 <ul>
     <% customers.forEach(function (customer){ %>
-        <li> <%= customer.value.name %> </li>
+        <li>
+            <h4><%= customer.value.name %></h4>
+            <%= customer.value.email %>
+            <ul>
+                <li><%= customer.value.address.street%></li>
+                <li><%= customer.value.address.city%></li>
+                <li><%= customer.value.address.state%></li>
+            </ul>
+        </li>
     <% }); %>
 </ul>
