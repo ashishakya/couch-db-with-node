@@ -53,7 +53,7 @@ app.post("/customers", function (req, res) {
     const email = req.body.email;
     couch.uniqid().then(ids => {
         const id = ids[0];
-        couch.insert("customers", {
+        couch.insert(dbName, {
             _id: id,
             name,
             email
@@ -67,6 +67,18 @@ app.post("/customers", function (req, res) {
             // either request error occured
             // ...or err.code=EDOCCONFLICT if document with the same id already exists
         });
+    });
+})
+app.post("/customers/delete/:id", function (req, res) {
+    const id = req.params.id;
+    const rev = req.body.rev;
+    couch.del(dbName, id, rev).then(({data, headers, status}) => {
+        res.redirect("/")
+    }, err => {
+        res.send(err)
+        // either request error occured
+        // ...or err.code=EDOCMISSING if document does not exist
+        // ...or err.code=EUNKNOWN if response status code is unexpected
     });
 })
 

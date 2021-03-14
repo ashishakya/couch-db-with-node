@@ -11,6 +11,10 @@
         <li>
             <h4><%= customer.value.name %></h4>
             <%= customer.value.email %>
+            <form method="post" action="/customers/delete/<%= customer.key %>">
+                <input type="hidden" value="<%= customer.value.rev %>" name="rev">
+                <input type="submit" value="Delete">
+            </form>
         </li>
     <% }); %>
 </ul>
