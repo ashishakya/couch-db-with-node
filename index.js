@@ -2,31 +2,50 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path"); //core
 const NodeCouchDb = require("node-couchdb");
+require('dotenv').config()
 // node-couchdb instance with default options
 const couch = new NodeCouchDb({
     auth: {
-        user: "username",
-        password: "password"
+        user: process.env.COUCH_DB_USERNAME,
+        password: process.env.COUCH_DB_PASSWORD
     }
 });
 
-couch.listDatabases().then(dbs => console.log(dbs), err => {
-    // request error occured
-});
+const dbName = "customers";
+const viewUrl = "_design/all_customers/_view/all";
+
+// list database
+// couch.listDatabases().then(dbs => console.log(dbs), err => {
+//     // request error occured
+// });
 
 
 const app = express();
 
 // adding view engine middleware
 app.set("view engine", "ejs");
-app.set("view", path.join(__dirname, 'views'));
+app.set("views", path.join(__dirname, 'views'));
 
 // adding body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.get("/", function (req, res) {
-    res.send("working....");
+    couch.get(dbName, viewUrl).then((data, headers, status) => {
+        res.render("index",{
+            customers:data.data.rows
+        });
+        // console.log(data.rows.rows);
+        // 18:05
+        // data is json response
+        // headers is an object with all response headers
+        // status is statusCode number
+    }, (err) => {
+        res.send(err);
+        // either request error occured
+        // ...or err.code=EDOCMISSING if document is missing
+        // ...or err.code=EUNKNOWN if statusCode is unexpected
+    });
 });
 
 app.listen(3000, function () {

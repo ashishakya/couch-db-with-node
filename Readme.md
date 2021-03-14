@@ -1,5 +1,7 @@
 # Steps:
 - Run `npm install` command.
+- Run `cp .env.example .env`
+- Fill credentials in .env file
 - Run `node index.js` command.
 
 ## References
