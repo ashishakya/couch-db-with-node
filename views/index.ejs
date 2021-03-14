@@ -1,14 +1,16 @@
+<h3>Add Customers</h3>
+<form method="post" action="/customers">
+    <input type="text" name="name" placeholder="Enter Customer Name"/>
+    <input type="email" name="email" placeholder="Enter Email"/>
+    <input type="submit" value="Submit"/>
+</form>
+<hr>
 <h3>Customers</h3>
 <ul>
     <% customers.forEach(function (customer){ %>
         <li>
             <h4><%= customer.value.name %></h4>
             <%= customer.value.email %>
-            <ul>
-                <li><%= customer.value.address.street%></li>
-                <li><%= customer.value.address.city%></li>
-                <li><%= customer.value.address.state%></li>
-            </ul>
         </li>
     <% }); %>
 </ul>

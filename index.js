@@ -32,8 +32,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.get("/", function (req, res) {
     couch.get(dbName, viewUrl).then((data, headers, status) => {
-        res.render("index",{
-            customers:data.data.rows
+        res.render("index", {
+            customers: data.data.rows
         });
         // console.log(data.rows.rows);
         // 18:05
@@ -47,6 +47,28 @@ app.get("/", function (req, res) {
         // ...or err.code=EUNKNOWN if statusCode is unexpected
     });
 });
+
+app.post("/customers", function (req, res) {
+    const name = req.body.name;
+    const email = req.body.email;
+    couch.uniqid().then(ids => {
+        const id = ids[0];
+        couch.insert("customers", {
+            _id: id,
+            name,
+            email
+        }).then(function (data, headers, status) {
+            res.redirect("/")
+            // data is json response
+            // headers is an object with all response headers
+            // status is statusCode number
+        }, function (err) {
+            res.send(err);
+            // either request error occured
+            // ...or err.code=EDOCCONFLICT if document with the same id already exists
+        });
+    });
+})
 
 app.listen(3000, function () {
     console.log("Server running of port 3000");
