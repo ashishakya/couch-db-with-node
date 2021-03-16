@@ -2,7 +2,7 @@
 - Run `npm install` command.
 - Run `cp .env.example .env`
 - Fill credentials in .env file
-- Create a new database with the name `customers`.
+- Create a new database with the name `customers` in couch db.
 - Run `node index.js` command.
 
 ## References
