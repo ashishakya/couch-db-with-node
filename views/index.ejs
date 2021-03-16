@@ -9,12 +9,20 @@
 <ul>
     <% customers.forEach(function (customer){ %>
         <li>
-            <h4><%= customer.value.name %></h4>
-            <%= customer.value.email %>
-            <form method="post" action="/customers/delete/<%= customer.key %>">
-                <input type="hidden" value="<%= customer.value.rev %>" name="rev">
-                <input type="submit" value="Delete">
-            </form>
+            <div style="display: flex; align-items: center">
+                <h4 style="margin-right: 2px"><%= customer.value.name %></h4> (<%= customer.value.email %>)
+            </div>
+
+            <div style="display: flex;">
+                <a href="/customers/<%= customer.key %>/edit">
+                    <button>Edit</button>
+                </a>
+                &nbsp;
+                <form method="post" action="/customers/delete/<%= customer.key %>">
+                    <input type="hidden" value="<%= customer.value.rev %>" name="rev">
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
         </li>
     <% }); %>
 </ul>

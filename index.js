@@ -82,6 +82,24 @@ app.post("/customers/delete/:id", function (req, res) {
     });
 })
 
+app.get("/customers/:id/edit", function (req, res){
+    const customerId = req.params.id;
+    couch.get(dbName, customerId).then(({data, headers, status}) => {
+        // console.log(name, email);
+
+        res.render(`edit`, {...data});
+        // data is json response
+        // headers is an object with all response headers
+        // status is statusCode number
+    }, err => {
+        res.send(err);
+
+        // either request error occured
+        // ...or err.code=EDOCMISSING if document is missing
+        // ...or err.code=EUNKNOWN if statusCode is unexpected
+    });
+})
+
 app.listen(3000, function () {
     console.log("Server running of port 3000");
 });
