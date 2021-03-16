@@ -100,6 +100,28 @@ app.get("/customers/:id/edit", function (req, res){
     });
 })
 
+app.post("/customers/:id", function (req, res){
+    const customerId = req.params.id;
+    const rev = req.body.rev;
+    const name = req.body.name;
+    const email = req.body.email;
+    console.log('rev', rev, "id", customerId)
+    // note that "doc" must have both "_id" and "_rev" fields
+    couch.update(dbName, {
+        _id: customerId,
+        _rev: rev,
+        name,
+        email
+    }).then(({data, headers, status}) => {
+        res.redirect("/")
+    }, err => {
+        res.send(err)
+        // either request error occured
+        // ...or err.code=EFIELDMISSING if either _id or _rev fields are missing
+    });
+})
+
+
 app.listen(3000, function () {
     console.log("Server running of port 3000");
 });
