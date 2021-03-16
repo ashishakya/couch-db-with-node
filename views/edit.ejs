@@ -1,7 +1,8 @@
-<h3>Edit Customers</h3>
-<form method="post" action="/customers">
+<h3>Edit Customer</h3>
+<form method="post" action="/customers/<%= _id%>">
     <input type="text" name="name" value="<%= name %>" placeholder="Enter Customer Name"/>
     <input type="email" name="email" value="<%= email %>" placeholder="Enter Email"/>
+    <input type="hidden" value="<%= _rev%>" name="rev">
     <input type="submit" value="Submit"/>
     <a href="/"><button>Cancel</button></a>
 </form>
